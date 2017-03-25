@@ -1,7 +1,7 @@
 {
     "name": "rt-code-collab",
     "displayName": "rt-code-collab",
-    "description": "Realtime Code Collaboration plugin for VS Code",
+    "description": "Real Time Code Collaboration plugin for VS Code",
     "version": "0.0.1",
     "publisher": "THE-WIRE",
     "engines": {
