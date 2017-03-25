@@ -5,6 +5,9 @@ import * as vscode from 'vscode';
 
 var firebase = require('firebase')
 var T_CONFIG = require('../../t_config.json')
+let doc_text: string
+let cur_text: string
+
 
 // Initialize Firebase
 var config = {
@@ -33,6 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
     let controller = new CodeUpdateController(codeUpdater);
 
     var disposable = vscode.commands.registerCommand('extension.startWire', () => {
+        console.log(T_CONFIG)
         codeUpdater.updateCode();
     });
 
@@ -49,11 +53,17 @@ class CodeUpdater {
     constructor() {
         let e = vscode.window.activeTextEditor;
 
-         let codeRef = firebase.database().ref('teams/' + T_CONFIG.teamKey + '/code/')
-         codeRef.on('child_changed', function(snap){
-         console.log("changed", snap);
-           e.insertSnippet(new vscode.SnippetString(snap));
-         })
+        let codeRef = firebase.database().ref('teams/' + T_CONFIG.teamKey + '/code/')
+        codeRef.on('child_changed', function (snap) {
+            console.log("changed", snap);
+
+            //e.insertSnippet(new vscode.SnippetString(snap), new vscode.Position(0, 0));
+            doc_text = snap
+            e.edit(function (edit) {
+                edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 200)), doc_text)
+            })
+
+        })
     }
 
     public updateCode() {
@@ -75,8 +85,11 @@ class CodeUpdater {
         console.log(doc.getText())
 
         let codeRef = firebase.database().ref('teams/' + T_CONFIG.teamKey + '/code/')
-        codeRef.update({ "A": doc.getText() })
 
+        cur_text = doc.getText()
+        if (doc_text != cur_text) {
+            codeRef.update({ "A": cur_text })
+        }
     }
 
 
