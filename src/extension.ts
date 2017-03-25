@@ -53,15 +53,12 @@ class CodeUpdater {
     constructor() {
         let e = vscode.window.activeTextEditor;
 
-        let codeRef = firebase.database().ref('teams/' + T_CONFIG.teamKey + '/code/')
+        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + '/')
         codeRef.on('child_changed', function (snap) {
             console.log("changed", snap);
-
-            //e.insertSnippet(new vscode.SnippetString(snap), new vscode.Position(0, 0));
             doc_text = snap
             e.edit(function (edit) {
                 edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
-                console.log(e.selection)
                 e.selection = new vscode.Selection(new vscode.Position(e.selection.end.line, e.selection.end.character), new vscode.Position(e.selection.end.line, e.selection.end.character))
 
             })
@@ -87,11 +84,11 @@ class CodeUpdater {
 
         console.log(doc.getText())
 
-        let codeRef = firebase.database().ref('teams/' + T_CONFIG.teamKey + '/code/')
+        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + '/')
 
         cur_text = doc.getText()
         if (doc_text != cur_text) {
-            codeRef.update({ "A": cur_text })
+            codeRef.update({ "code": cur_text })
         }
     }
 
