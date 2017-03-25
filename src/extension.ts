@@ -8,7 +8,7 @@ var T_CONFIG = require('../../t_config.json')
 let doc_text: string
 let cur_text: string
 let chance: boolean
-
+let globalTimeStamp;
 
 // Initialize Firebase
 var config = {
@@ -73,6 +73,7 @@ class CodeUpdater {
             let doc = editor.document;
             let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/")
             codeRef.update({"code": doc.getText()});
+            globalTimeStamp = Date.now();
     }
 
 
@@ -91,7 +92,7 @@ class CodeUpdateController {
     constructor(codeUpdater: CodeUpdater) {
         this._codeUpdater = codeUpdater;
         //this._codeUpdater.updateCode();
-
+        globalTimeStamp = Date.now()
         // subscribe to selection change and editor activation events
         let subscriptions: vscode.Disposable[] = [];
 
@@ -127,7 +128,9 @@ class CodeUpdateController {
     }
 
     private _onEvent() {
-        setTimeout(this._codeUpdater.updateCode, 100);
+        if(globalTimeStamp <= Date.now()-100){
+            this._codeUpdater.updateCode();
+        }
     }
 }
 
