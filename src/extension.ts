@@ -7,6 +7,7 @@ var firebase = require('firebase')
 var T_CONFIG = require('../../t_config.json')
 let doc_text: string
 let cur_text: string
+let chance: boolean
 
 
 // Initialize Firebase
@@ -33,12 +34,29 @@ export function activate(context: vscode.ExtensionContext) {
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
     let codeUpdater = new CodeUpdater();
-    let controller = new CodeUpdateController(codeUpdater);
+
+    chance = true;
 
     var disposable = vscode.commands.registerCommand('extension.startWire', () => {
+
+        let e = vscode.window.activeTextEditor;
+
         console.log(T_CONFIG)
-        codeUpdater.updateCode();
+        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + '/code')
+        console.log(codeRef)
+        codeRef.on('value', function (snap) {
+            console.log("changed", snap);
+            doc_text = snap
+            e.edit(function (edit) {
+                edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
+                e.selection = new vscode.Selection(new vscode.Position(e.selection.end.line, e.selection.end.character), new vscode.Position(e.selection.end.line, e.selection.end.character))
+
+            })
+
+        })
     });
+
+    let controller = new CodeUpdateController(codeUpdater);
 
     // Add to a list of disposables which are disposed when this extension is deactivated.
     context.subscriptions.push(codeUpdater);
@@ -51,10 +69,15 @@ class CodeUpdater {
     private _statusBarItem: vscode.StatusBarItem;
 
     constructor() {
+        //this.fetchCode()
+    }
+
+    public fetchCode() {
         let e = vscode.window.activeTextEditor;
 
-        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + '/')
-        codeRef.on('child_changed', function (snap) {
+        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + '/code')
+        console.log(codeRef)
+        codeRef.on('value', function (snap) {
             console.log("changed", snap);
             doc_text = snap
             e.edit(function (edit) {
@@ -107,16 +130,34 @@ class CodeUpdateController {
 
     constructor(codeUpdater: CodeUpdater) {
         this._codeUpdater = codeUpdater;
-        this._codeUpdater.updateCode();
+        //this._codeUpdater.updateCode();
 
         // subscribe to selection change and editor activation events
         let subscriptions: vscode.Disposable[] = [];
+
+        let e = vscode.window.activeTextEditor;
+
+        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + '/code')
+        codeRef.on('child_changed', function (snap) {
+            console.log("changed", snap);
+            doc_text = snap
+            e.edit(function (edit) {
+                edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
+                e.selection = new vscode.Selection(new vscode.Position(e.selection.end.line, e.selection.end.character), new vscode.Position(e.selection.end.line, e.selection.end.character))
+
+            })
+
+        })
+
         vscode.window.onDidChangeTextEditorSelection(this._onEvent, this, subscriptions);
         vscode.window.onDidChangeActiveTextEditor(this._onEvent, this, subscriptions);
 
 
+
+
+
         // update the counter for the current file
-        this._codeUpdater.updateCode();
+        //this._codeUpdater.updateCode();
 
         // create a combined disposable from both event subscriptions
         this._disposable = vscode.Disposable.from(...subscriptions);
