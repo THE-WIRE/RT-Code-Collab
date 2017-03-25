@@ -60,7 +60,10 @@ class CodeUpdater {
             //e.insertSnippet(new vscode.SnippetString(snap), new vscode.Position(0, 0));
             doc_text = snap
             e.edit(function (edit) {
-                edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 200)), doc_text)
+                edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
+                console.log(e.selection)
+                e.selection = new vscode.Selection(new vscode.Position(e.selection.end.line, e.selection.end.character), new vscode.Position(e.selection.end.line, e.selection.end.character))
+
             })
 
         })
