@@ -21,6 +21,7 @@ var config = {
 
 firebase.initializeApp(config);
 
+let initial = true;
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -35,17 +36,13 @@ export function activate(context: vscode.ExtensionContext) {
     // The commandId parameter must match the command field in package.json
     let codeUpdater = new CodeUpdater();
 
-    chance = true;
 
     var disposable = vscode.commands.registerCommand('extension.startWire', () => {
 
         let e = vscode.window.activeTextEditor;
-
-        console.log(T_CONFIG)
         let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + '/code')
-        console.log(codeRef)
+
         codeRef.on('value', function (snap) {
-            console.log("changed", snap);
             doc_text = snap
             e.edit(function (edit) {
                 edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
@@ -69,50 +66,13 @@ class CodeUpdater {
     private _statusBarItem: vscode.StatusBarItem;
 
     constructor() {
-        //this.fetchCode()
-    }
-
-    public fetchCode() {
-        let e = vscode.window.activeTextEditor;
-
-        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + '/code')
-        console.log(codeRef)
-        codeRef.on('value', function (snap) {
-            console.log("changed", snap);
-            doc_text = snap
-            e.edit(function (edit) {
-                edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
-                e.selection = new vscode.Selection(new vscode.Position(e.selection.end.line, e.selection.end.character), new vscode.Position(e.selection.end.line, e.selection.end.character))
-
-            })
-
-        })
     }
 
     public updateCode() {
-
-        // Create as needed
-        if (!this._statusBarItem) {
-            this._statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-        }
-
-        // Get the current text editor
-        let editor = vscode.window.activeTextEditor;
-        if (!editor) {
-            this._statusBarItem.hide();
-            return;
-        }
-
-        let doc = editor.document;
-
-        console.log(doc.getText())
-
-        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + '/')
-
-        cur_text = doc.getText()
-        if (doc_text != cur_text) {
-            codeRef.update({ "code": cur_text })
-        }
+            let editor = vscode.window.activeTextEditor;
+            let doc = editor.document;
+            let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/")
+            codeRef.update({"code": doc.getText()});
     }
 
 
@@ -139,7 +99,6 @@ class CodeUpdateController {
 
         let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + '/code')
         codeRef.on('child_changed', function (snap) {
-            console.log("changed", snap);
             doc_text = snap
             e.edit(function (edit) {
                 edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
@@ -168,7 +127,7 @@ class CodeUpdateController {
     }
 
     private _onEvent() {
-        this._codeUpdater.updateCode();
+        setTimeout(this._codeUpdater.updateCode, 100);
     }
 }
 
