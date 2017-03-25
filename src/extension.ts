@@ -47,7 +47,13 @@ class CodeUpdater {
     private _statusBarItem: vscode.StatusBarItem;
 
     constructor() {
+        let e = vscode.window.activeTextEditor;
 
+         let codeRef = firebase.database().ref('teams/' + T_CONFIG.teamKey + '/code/')
+         codeRef.on('child_changed', function(snap){
+         console.log("changed", snap);
+           e.insertSnippet(new vscode.SnippetString(snap));
+         })
     }
 
     public updateCode() {
