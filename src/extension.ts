@@ -7,7 +7,8 @@ var firebase = require('firebase')
 var T_CONFIG = require('../../t_config.json')
 let doc_text: string
 let cur_text: string
-let chance: boolean
+let initially: boolean = true
+let rootPath
 let globalTimeStamp;
 
 // Initialize Firebase
@@ -34,21 +35,38 @@ export function activate(context: vscode.ExtensionContext) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
-    let codeUpdater = new CodeUpdater();
 
+    let codeUpdater = new CodeUpdater();
 
     var disposable = vscode.commands.registerCommand('extension.startWire', () => {
 
+        if (vscode.workspace.rootPath == undefined) {
+            //push error
+        }
+        else {
+            rootPath = vscode.workspace.rootPath
+        }
+
+
+
         let e = vscode.window.activeTextEditor;
-        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + '/code')
+        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/" + replaceDot(e.document.fileName) + '/code')
 
         codeRef.on('value', function (snap) {
-            doc_text = snap
-            e.edit(function (edit) {
-                edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
-                e.selection = new vscode.Selection(new vscode.Position(e.selection.end.line, e.selection.end.character), new vscode.Position(e.selection.end.line, e.selection.end.character))
 
-            })
+            if ((!snap.val() || snap.val() == "" || snap == " " || snap == null || snap == undefined) && initially) {
+                console.log("updated initially")
+                codeUpdater.updateCode()
+                initially = false
+            }
+            else {
+                doc_text = snap
+                e.edit(function (edit) {
+                    edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
+                    e.selection = new vscode.Selection(new vscode.Position(e.selection.end.line, e.selection.end.character), new vscode.Position(e.selection.end.line, e.selection.end.character))
+
+                })
+            }
 
         })
     });
@@ -69,15 +87,12 @@ class CodeUpdater {
     }
 
     public updateCode() {
-            let editor = vscode.window.activeTextEditor;
-            let doc = editor.document;
-            let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/")
-            codeRef.update({"code": doc.getText()});
-            globalTimeStamp = Date.now();
+        let editor = vscode.window.activeTextEditor;
+        let doc = editor.document;
+        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/" + replaceDot(editor.document.fileName) + "/")
+        codeRef.update({ "code": doc.getText() });
+        globalTimeStamp = Date.now();
     }
-
-
-
 
     dispose() {
         this._statusBarItem.dispose();
@@ -98,21 +113,30 @@ class CodeUpdateController {
 
         let e = vscode.window.activeTextEditor;
 
-        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + '/code')
-        codeRef.on('child_changed', function (snap) {
-            doc_text = snap
-            e.edit(function (edit) {
-                edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
-                e.selection = new vscode.Selection(new vscode.Position(e.selection.end.line, e.selection.end.character), new vscode.Position(e.selection.end.line, e.selection.end.character))
 
-            })
 
-        })
+        // let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/" + rootPath + "/" + replaceDot(e.document.fileName) + '/code')
+        // codeRef.on('child_changed', function (snap) {
+        //     doc_text = snap
+
+        //     console.log("snap", snap)
+
+        //     if (snap == null && initially) {
+        //         this._codeUpdater.updateCode()
+        //         initially = false
+        //     }
+        //     else {
+        //         e.edit(function (edit) {
+        //             edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
+        //             e.selection = new vscode.Selection(new vscode.Position(e.selection.end.line, e.selection.end.character), new vscode.Position(e.selection.end.line, e.selection.end.character))
+
+        //         })
+        //     }
+
+        // })
 
         vscode.window.onDidChangeTextEditorSelection(this._onEvent, this, subscriptions);
-        vscode.window.onDidChangeActiveTextEditor(this._onEvent, this, subscriptions);
-
-
+        vscode.window.onDidChangeActiveTextEditor(this._callEventOnActiveChange, this, subscriptions);
 
 
 
@@ -128,10 +152,27 @@ class CodeUpdateController {
     }
 
     private _onEvent() {
-        if(globalTimeStamp <= Date.now()-100){
+        if (globalTimeStamp <= Date.now() - 50) {
             this._codeUpdater.updateCode();
         }
+
     }
+
+    private _callEventOnActiveChange() {
+        initially = true;
+        this._onEvent()
+    }
+}
+
+function replaceDot(str: string): string {
+    let x = str.split('/')
+    let y = x[x.length - 1]
+    let z = y.replace(/\./g, '_thewire_')
+    return z
+}
+
+function normalizePath(str: string): string {
+    return str.replace(/_thewire_/g, '\.')
 }
 
 // this method is called when your extension is deactivated
