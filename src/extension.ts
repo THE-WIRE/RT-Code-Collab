@@ -54,10 +54,10 @@ export function activate(context: vscode.ExtensionContext) {
 
         codeRef.on('value', function (snap) {
 
-            if ((!snap.val() || snap.val() == "" || snap == " " || snap == null || snap == undefined) && initially) {
+            if ((!snap.val() || snap.val() == "") && initially) {
                 console.log("updated initially")
-                codeUpdater.updateCode()
                 initially = false
+                codeUpdater.updateCode()
             }
             else {
                 doc_text = snap
@@ -87,11 +87,34 @@ class CodeUpdater {
     }
 
     public updateCode() {
+
         let editor = vscode.window.activeTextEditor;
         let doc = editor.document;
-        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/" + replaceDot(editor.document.fileName) + "/")
-        codeRef.update({ "code": doc.getText() });
-        globalTimeStamp = Date.now();
+
+        if (initially) {
+            let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/" + replaceDot(editor.document.fileName) + '/code')
+            codeRef.on('value', function (snap) {
+
+                if ((!snap.val() || snap.val() == "")) {
+                    console.log("updated initially")
+                    initially = false
+                    this.updateCode()
+                }
+                else {
+                    doc_text = snap
+                    editor.edit(function (edit) {
+                        edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
+                        editor.selection = new vscode.Selection(new vscode.Position(editor.selection.end.line, editor.selection.end.character), new vscode.Position(editor.selection.end.line, editor.selection.end.character))
+
+                    })
+                }
+
+            })
+        } else {
+            let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/" + replaceDot(editor.document.fileName) + "/")
+            codeRef.update({ "code": doc.getText() });
+            globalTimeStamp = Date.now();
+        }
     }
 
     dispose() {
@@ -165,7 +188,14 @@ class CodeUpdateController {
 }
 
 function replaceDot(str: string): string {
-    let x = str.split('/')
+    let x
+    if (str.includes('/')) {
+        x = str.split('/')
+    }
+    else {
+        x = str.split('\\')
+    }
+
     let y = x[x.length - 1]
     let z = y.replace(/\./g, '_thewire_')
     return z
