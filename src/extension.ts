@@ -64,25 +64,29 @@ export function activate(context: vscode.ExtensionContext) {
                         T_CONFIG.teamKey = snap.val().teamId
                         vscode.window.showInformationMessage("You joined as " + snap.val().email);
 
-                        let e = vscode.window.activeTextEditor;
-                        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/" + replaceDot(e.document.fileName) + '/code')
+                        let codeRef1 = firebase.database().ref('active/')
+                        codeRef1.on('value', function (dontuse) {
+                            let e = vscode.window.activeTextEditor;
 
-                        codeRef.on('value', function (snap) {
+                            let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/" + replaceDot(e.document.fileName) + '/code')
 
-                            if ((!snap.val() || snap.val() == "") && initially) {
-                                console.log("updated initially")
-                                initially = false
-                                codeUpdater.updateCode()
-                            }
-                            else {
-                                doc_text = snap
-                                e.edit(function (edit) {
-                                    edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
-                                    e.selection = new vscode.Selection(new vscode.Position(e.selection.end.line, e.selection.end.character), new vscode.Position(e.selection.end.line, e.selection.end.character))
+                            codeRef.on('value', function (snap) {
 
-                                })
-                            }
+                                if ((!snap.val() || snap.val() == "") && initially) {
+                                    console.log("updated initially")
+                                    initially = false
+                                    codeUpdater.updateCode()
+                                }
+                                else {
+                                    doc_text = snap
+                                    e.edit(function (edit) {
+                                        edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
+                                        e.selection = new vscode.Selection(new vscode.Position(e.selection.end.line, e.selection.end.character), new vscode.Position(e.selection.end.line, e.selection.end.character))
 
+                                    })
+                                }
+
+                            })
                         })
                     })
 
