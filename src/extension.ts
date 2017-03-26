@@ -101,6 +101,7 @@ class CodeUpdater {
                     this.updateCode()
                 }
                 else {
+                    initially = false
                     doc_text = snap
                     editor.edit(function (edit) {
                         edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
@@ -175,6 +176,7 @@ class CodeUpdateController {
     }
 
     private _onEvent() {
+        initially = false
         if (globalTimeStamp <= Date.now() - 50) {
             this._codeUpdater.updateCode();
         }
@@ -184,6 +186,7 @@ class CodeUpdateController {
     private _callEventOnActiveChange() {
         initially = true;
         this._onEvent()
+        initially = false;
     }
 }
 
