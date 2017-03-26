@@ -4,7 +4,9 @@
 import * as vscode from 'vscode';
 
 var firebase = require('firebase')
-var T_CONFIG = require('../../t_config.json')
+var T_CONFIG = {
+    "teamKey": "garbage/"
+}
 let doc_text: string
 let cur_text: string
 let initially: boolean = true
@@ -30,7 +32,17 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
-    console.log('Congratulations, your extension "rt-code-collab" is now active!');
+
+    let ref
+
+
+    if (vscode.workspace.rootPath == undefined) {
+        vscode.window.showErrorMessage('Folder must be open in workspace to start collaboration.');
+    }
+    else {
+        rootPath = vscode.workspace.rootPath
+        console.log('Congratulations, your extension "rt-code-collab" is now active!');
+    }
 
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
@@ -38,38 +50,54 @@ export function activate(context: vscode.ExtensionContext) {
 
     let codeUpdater = new CodeUpdater();
 
+
+
     var disposable = vscode.commands.registerCommand('extension.startWire', () => {
 
-        if (vscode.workspace.rootPath == undefined) {
-            //push error
-        }
-        else {
-            rootPath = vscode.workspace.rootPath
-        }
+        vscode.window.showInputBox().then(function (username) {
+            vscode.window.showInputBox().then(function (password) {
 
+                firebase.auth().signInWithEmailAndPassword(username, password).then(function (user) {
+                    ref = firebase.database().ref('users/' + user.uid)
+                    ref.on('value', function (snap) {
+                        console.log(snap)
+                        T_CONFIG.teamKey = snap.val().teamId
+                        vscode.window.showInformationMessage("You joined as " + snap.val().email);
 
+                        let e = vscode.window.activeTextEditor;
+                        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/" + replaceDot(e.document.fileName) + '/code')
 
-        let e = vscode.window.activeTextEditor;
-        let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/" + replaceDot(e.document.fileName) + '/code')
+                        codeRef.on('value', function (snap) {
 
-        codeRef.on('value', function (snap) {
+                            if ((!snap.val() || snap.val() == "") && initially) {
+                                console.log("updated initially")
+                                initially = false
+                                codeUpdater.updateCode()
+                            }
+                            else {
+                                doc_text = snap
+                                e.edit(function (edit) {
+                                    edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
+                                    e.selection = new vscode.Selection(new vscode.Position(e.selection.end.line, e.selection.end.character), new vscode.Position(e.selection.end.line, e.selection.end.character))
 
-            if ((!snap.val() || snap.val() == "") && initially) {
-                console.log("updated initially")
-                initially = false
-                codeUpdater.updateCode()
-            }
-            else {
-                doc_text = snap
-                e.edit(function (edit) {
-                    edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
-                    e.selection = new vscode.Selection(new vscode.Position(e.selection.end.line, e.selection.end.character), new vscode.Position(e.selection.end.line, e.selection.end.character))
+                                })
+                            }
+
+                        })
+                    })
 
                 })
-            }
-
+                    .catch(function (error) {
+                        // Handle Errors here.
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        vscode.window.showErrorMessage(errorMessage);
+                    });
+            });
         })
-    });
+    })
+
+
 
     let controller = new CodeUpdateController(codeUpdater);
 
