@@ -120,6 +120,7 @@ class CodeUpdater {
         let doc = editor.document;
 
         if (initially) {
+
             let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/" + replaceDot(editor.document.fileName) + '/code')
             codeRef.on('value', function (snap) {
 
@@ -129,8 +130,8 @@ class CodeUpdater {
                     this.updateCode()
                 }
                 else {
-                    initially = false
                     doc_text = snap
+                    initially = false
                     editor.edit(function (edit) {
                         edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
                         editor.selection = new vscode.Selection(new vscode.Position(editor.selection.end.line, editor.selection.end.character), new vscode.Position(editor.selection.end.line, editor.selection.end.character))
@@ -167,17 +168,16 @@ class CodeUpdateController {
 
 
 
-        // let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/" + rootPath + "/" + replaceDot(e.document.fileName) + '/code')
-        // codeRef.on('child_changed', function (snap) {
-        //     doc_text = snap
+        // let codeRef = firebase.database().ref('active/' + T_CONFIG.teamKey + "/" + replaceDot(e.document.fileName) + '/code')
+        // codeRef.on('value', function (snap) {
 
-        //     console.log("snap", snap)
-
-        //     if (snap == null && initially) {
-        //         this._codeUpdater.updateCode()
+        //     if ((!snap.val() || snap.val() == "")) {
+        //         console.log("updated initially")
         //         initially = false
         //     }
         //     else {
+        //         doc_text = snap
+        //         initially = false
         //         e.edit(function (edit) {
         //             edit.replace(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(1000, 1000)), doc_text)
         //             e.selection = new vscode.Selection(new vscode.Position(e.selection.end.line, e.selection.end.character), new vscode.Position(e.selection.end.line, e.selection.end.character))
@@ -214,7 +214,6 @@ class CodeUpdateController {
     private _callEventOnActiveChange() {
         initially = true;
         this._onEvent()
-        initially = false;
     }
 }
 
