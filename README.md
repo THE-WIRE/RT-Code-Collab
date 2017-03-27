@@ -20,7 +20,7 @@ Github link for UI : https://github.com/THE-WIRE/web-rt (The development of this
   <li>Can create teams using a seperate web interface</li>
 </ul>
 
-## Requirememts
+## Requirements
 
 VS Code
 
