@@ -63,16 +63,15 @@ For testing purpose we used two usernames and passwords
 ```
 
 <h4> Wait for the login till you get a dialog box saying 'You have logged in as xxx@xxx.com' </h4>
-[](http://i.imgur.com/n4LXQAA.gif)
-![DEVICE 2 USER](https://drive.google.com/file/d/0B75fV0jlDp_EMm1VempBUVF2c2s/view?usp=sharing)
+
+
+![test2-gif](https://cloud.githubusercontent.com/assets/15127164/24348470/77449348-12f9-11e7-90d3-69b6cbaab34b.gif) | ![test1-gif](https://cloud.githubusercontent.com/assets/15127164/24348411/4334845a-12f9-11e7-8206-c9e2f035f5f1.gif)
+
 
 <h4> Once you get this, you are done! You are collaborating </h4>
 
 <hr>
 <h4> Note - If you want to collaborate, both the systems must have logged in and also the file name and its extension must be the same </h4>
-
-### GIF Images
-
 
 ### Applications
 
