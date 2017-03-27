@@ -2,7 +2,7 @@
 
 This is plugin for Microsoft Visual Studio Code which enables real-time collaboration of files.
 
-Github link for UI : https://github.com/THE-WIRE/web-rt
+Github link for UI : https://github.com/THE-WIRE/web-rt (The development of this is still on!)
 
 ## Features
 
@@ -26,17 +26,22 @@ VS Code
 
 ## How to Install
 <h3> First Download the project or clone </h3>
+
 ```bash
 git clone <github-repo-url>
 ```
+
 <h3> Now open the project in VS Code Editor </h3>
 <h5> Navigate to <b>extension.ts</b> file </h5>
 <h4> Now to run the extension - </h4>
+
 ```bash
 Press CTRL + F5 to Run the extension.ts
 ```
+
 <h4> A new window will open with the extension loaded </h4>
 <h4> Open any project file to collaborate </h4>
+
 ```bash
 To start the collaboration use CTRL + SHIFT + P
 Write 'start wire` in that extension loading box.
