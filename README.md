@@ -16,19 +16,21 @@ Github link for UI : https://github.com/THE-WIRE/web-rt (The development of this
 VS Code
 
 ## Index 
-<li> Initial Setup </li>
-<li> How to install </li>
-<li> GIF Image </li>
-<li> Applications </li>
-<li> Further </li>
+<ul>
+[<li> Initial Setup </li>](#intial-setup)
+[<li> How to install </li>](#how-to-install)
+[<li> Demo </li>](#demo)
+[<li> Applications </li>](#applications)
+[<li> Further </li>](#further)
+</ul>
 
 ## Initial Setup
 
-<h3>Install NodeJS: https://nodejs.org/en/</h3>
-<h3>Install the following using npm</h3>
+<h4>Install NodeJS: https://nodejs.org/en/</h4>
+<h4>Install the following using npm</h4>
 <ul>
-  <li><b>TYPESCRIPT</b> - npm install -g typescript</li>
-  <li><b>FIREBASE</b> - npm install firebase</li>
+  <li><b>Typescript</b> - npm install -g typescript</li>
+  <li><b>Firebase</b> - npm install firebase</li>
 </ul>
 
 ## How to Install
@@ -64,9 +66,10 @@ For testing purpose we used two usernames and passwords
 
 <h4> Wait for the login till you get a dialog box saying 'You have logged in as xxx@xxx.com' </h4>
 
-
-![test2-gif](https://cloud.githubusercontent.com/assets/15127164/24348470/77449348-12f9-11e7-90d3-69b6cbaab34b.gif) | ![test1-gif](https://cloud.githubusercontent.com/assets/15127164/24348411/4334845a-12f9-11e7-8206-c9e2f035f5f1.gif)
-
+### Demo
+<center>
+![test1-gif](https://cloud.githubusercontent.com/assets/15127164/24348411/4334845a-12f9-11e7-8206-c9e2f035f5f1.gif)
+<center>
 
 <h4> Once you get this, you are done! You are collaborating </h4>
 
