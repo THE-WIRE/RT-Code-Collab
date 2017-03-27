@@ -16,13 +16,11 @@ Github link for UI : https://github.com/THE-WIRE/web-rt (The development of this
 VS Code
 
 ## Index 
-<ul>
-[<li> Initial Setup </li>](#intial-setup)
-[<li> How to install </li>](#how-to-install)
-[<li> Demo </li>](#demo)
-[<li> Applications </li>](#applications)
-[<li> Further </li>](#further)
-</ul>
+ * [Initial Setup](#intial-setup)
+ * [How to Install](#how-to-install)
+ * [Demo](#demo)
+ * [Applications](#applications)
+ * [Further](#further)
 
 ## Initial Setup
 
