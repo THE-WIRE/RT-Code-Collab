@@ -51,8 +51,8 @@ A new dialog box will open at the top to get the username and then the password
 
 ```bash
 For testing purpose we used two usernames and passwords
-1. Username - test@gmail.com Password - rootuser
-2. Username - test1@gmail.com Password - rootuser
+1. Username - test1@test.com   Password - rootuser
+2. Username - test2@test.com   Password - rootuser
 ```
 
 <h4> Wait for the login till you get a dialog box saying 'You have logged in as xxx@xxx.com' </h4>
