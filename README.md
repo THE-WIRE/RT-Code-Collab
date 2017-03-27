@@ -16,11 +16,11 @@ Github link for UI : https://github.com/THE-WIRE/web-rt (The development of this
 VS Code
 
 ## Index 
-<li> Initial Setup <li>
+<li> Initial Setup </li>
 <li> How to install </li>
 <li> GIF Image </li>
 <li> Applications </li>
-<li> Further <li>
+<li> Further </li>
 
 ## Initial Setup
 
