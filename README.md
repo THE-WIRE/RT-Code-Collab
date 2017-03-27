@@ -90,7 +90,7 @@ Feel free to use them and give it a try
 ### Further
 
 * Currently the extension uses firebase. We plan to convert it to websockets.
-* To make it more fast and reliable, the local server code hosting feature is to be added. It will alo increase code security.
+* To make it more fast and reliable, the local server code hosting feature is to be added. It will also increase code security.
 * More ideas are invited...
 
 <h4> We will be publishing our package on VS Code Extensions Market soon </h4>
