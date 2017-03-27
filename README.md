@@ -4,6 +4,15 @@ This is plugin for Microsoft Visual Studio Code which enables real-time collabor
 
 Github link for UI : https://github.com/THE-WIRE/web-rt (The development of this is still on!)
 
+## Index 
+ * [Features](#features)
+ * [Requirements](#requirements)
+ * [Initial Setup](#intial-setup)
+ * [How to Install](#how-to-install)
+ * [Demo](#demo)
+ * [Applications](#applications)
+ * [Further](#further)
+
 ## Features
 
 <ul>
@@ -14,13 +23,6 @@ Github link for UI : https://github.com/THE-WIRE/web-rt (The development of this
 ## Requirememts
 
 VS Code
-
-## Index 
- * [Initial Setup](#intial-setup)
- * [How to Install](#how-to-install)
- * [Demo](#demo)
- * [Applications](#applications)
- * [Further](#further)
 
 ## Initial Setup
 
