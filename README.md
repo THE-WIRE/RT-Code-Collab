@@ -67,14 +67,12 @@ For testing purpose we used two usernames and passwords
 <h4> Wait for the login till you get a dialog box saying 'You have logged in as xxx@xxx.com' </h4>
 
 ### Demo
-<center>
-![test1-gif](https://cloud.githubusercontent.com/assets/15127164/24348411/4334845a-12f9-11e7-8206-c9e2f035f5f1.gif)
-<center>
 
 <h4> Once you get this, you are done! You are collaborating </h4>
-
 <hr>
 <h4> Note - If you want to collaborate, both the systems must have logged in and also the file name and its extension must be the same </h4>
+
+![test1-gif](https://cloud.githubusercontent.com/assets/15127164/24349094/9a056a2c-12fb-11e7-872e-aa8c01e6c5af.gif)
 
 ### Applications
 
