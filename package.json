@@ -3,7 +3,7 @@
     "displayName": "rt-code-collab",
     "description": "Real Time Code Collaboration plugin for VS Code",
     "version": "0.0.1",
-    "publisher": "THE-WIRE",
+    "publisher": "the-wire",
     "engines": {
         "vscode": "^1.10.0"
     },
