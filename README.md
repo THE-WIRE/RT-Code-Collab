@@ -55,7 +55,7 @@ For testing purpose we used two usernames and passwords
 2. Username - test1@gmail.com Password - rootuser
 ```
 
-<h4> Wait for the login till you get a dialog box saying 'You have been logged in as xxx@xxx.com' </h4>
+<h4> Wait for the login till you get a dialog box saying 'You have logged in as xxx@xxx.com' </h4>
 <h4> Once you get this, you are done! You are collaborating </h4>
 
 <hr>
