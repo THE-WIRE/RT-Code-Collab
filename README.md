@@ -59,31 +59,39 @@ A new dialog box will open at the top to get the username and then the password
 ```
 
 ```bash
-For testing purpose we used two usernames and passwords
+For testing purpose we have created two usernames and passwords
 1. Username - test1@test.com   Password - rootuser
 2. Username - test2@test.com   Password - rootuser
+
+Feel free to use them and give it a try
 ```
 
 <h4> Wait for the login till you get a dialog box saying 'You have logged in as xxx@xxx.com' </h4>
-
-### Demo
 
 <h4> Once you get this, you are done! You are collaborating </h4>
 <hr>
 <h4> Note - If you want to collaborate, both the systems must have logged in and also the file name and its extension must be the same </h4>
 
+### Demo
+
 ![test1-gif](https://cloud.githubusercontent.com/assets/15127164/24349094/9a056a2c-12fb-11e7-872e-aa8c01e6c5af.gif)
 
 ### Applications
 
+<ul>
 <li> Aplications to this system can be numerous. Few of the applications are listed below: </li>
   <li> Real time code collaboration for programmers with their favourite code editor for their comfort </li>
   <li> A real time code collaboration team viewer system </li>
   <li> For online tutors to share and help other students to debug their code </li>
-  <li> This can also be used for the purpose of interviews during the technical round to test the students with their coding skills </li>
+  <li> This can also be used for the purpose of interviews during the technical round to test the students with their coding      skills </li>
   <li> And many more ...</li>
+  </ul>
 
 ### Further
+
+* Currently the extension uses firebase. We plan to convert it to websockets.
+* To make it more fast and reliable, the local server code hosting feature is to be added. It will alo increase code security.
+* More ideas are invited...
 
 <h4> We will be publishing our package on VS Code Extensions Market soon </h4>
 
