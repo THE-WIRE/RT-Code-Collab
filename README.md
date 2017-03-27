@@ -51,7 +51,7 @@ Press CTRL + F5 to Run the extension.ts
 
 ```bash
 To start the collaboration use CTRL + SHIFT + P
-Write 'start wire` in that extension loading box.
+Write `start wire` in that extension loading box.
 then,
 A new dialog box will open at the top to get the username and then the password
 ```
