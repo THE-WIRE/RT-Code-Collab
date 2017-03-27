@@ -15,6 +15,13 @@ Github link for UI : https://github.com/THE-WIRE/web-rt (The development of this
 
 VS Code
 
+## Index 
+<li> Initial Setup <li>
+<li> How to install </li>
+<li> GIF Image </li>
+<li> Applications </li>
+<li> Further <li>
+
 ## Initial Setup
 
 <h3>Install NodeJS: https://nodejs.org/en/</h3>
@@ -60,6 +67,18 @@ For testing purpose we used two usernames and passwords
 
 <hr>
 <h4> Note - If you want to collaborate, both the systems must have logged in and also the file name and its extension must be the same </h4>
+
+### GIF Images
+
+
+### Applications
+
+<li> Aplications to this system can be numerous. Few of the applications are listed below: </li>
+  <li> Real time code collaboration for programmers with their favourite code editor for their comfort </li>
+  <li> A real time code collaboration team viewer system </li>
+  <li> For online tutors to share and help other students to debug their code </li>
+  <li> This can also be used for the purpose of interviews during the technical round to test the students with their coding skills </li>
+  <li> And many more ...</li>
 
 ### Further
 
