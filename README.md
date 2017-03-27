@@ -63,6 +63,6 @@ For testing purpose we used two usernames and passwords
 
 ### Further
 
-<h4> We will publishing our package on VS Code Extensions Market soon </h4>
+<h4> We will be publishing our package on VS Code Extensions Market soon </h4>
 
 **Enjoy!**
