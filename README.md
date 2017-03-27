@@ -63,7 +63,7 @@ For testing purpose we used two usernames and passwords
 ```
 
 <h4> Wait for the login till you get a dialog box saying 'You have logged in as xxx@xxx.com' </h4>
-![](http://i.imgur.com/n4LXQAA.gif)
+[](http://i.imgur.com/n4LXQAA.gif)
 ![DEVICE 2 USER](https://drive.google.com/file/d/0B75fV0jlDp_EMm1VempBUVF2c2s/view?usp=sharing)
 
 <h4> Once you get this, you are done! You are collaborating </h4>
